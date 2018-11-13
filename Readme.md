@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Степан Колчин](https://up.htmlacademy.ru/javascript/16/user/844681).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Оношко](https://vk.com/id194078245).
 
 ---
 
