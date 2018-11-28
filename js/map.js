@@ -17,42 +17,44 @@ var getRandomNumber = function (elements) {
   return elements [Math.floor(Math.random() * elements.length)];
 };
 // размер блока в котором перетаскивается метка
-var BLOCK_PIN = document.querySelector('.map__overlay');
-var BLOCK_PIN_HEIGHT = 200;
-var BLOCK_PIN_WIDTH = BLOCK_PIN.clientWidth - 50;
+var blockPin = document.querySelector('.map__overlay');
+var blockPinHeight = 200;
+var blockPinWidth = blockPin.clientWidth - 50;
 
 // массив объектов
-var usersArrays = [];
-for (var a = 0; a < USER_AVATARS.length; a++) {
-  var locationX = getRandoMinMax(BLOCK_PIN_WIDTH, BLOCK_PIN_HEIGHT);
-  var locationY = getRandoMinMax(130, 630);
+var users = [];
+function start() {
+  for (var i = 0; i < USER_AVATARS.length; i++) {
+    var locationX = getRandoMinMax(blockPinWidth, blockPinHeight);
+    var locationY = getRandoMinMax(130, 630);
 
-  usersArrays[a] = {
-    author: {
-      avatar: USER_AVATARS[a]
-    },
+    users[i] = {
+      author: {
+        avatar: USER_AVATARS[i]
+      },
 
-    offer: {
-      title: USER_TITLES[a],
-      address: locationX + ', ' + locationY,
-      price: Math.ceil(getRandoMinMax(1000, 1000000) / 1000.0) * 1000, // округляем до 1000
-      type: getRandomNumber(USER_TYPES),
-      rooms: getRandoMinMax(1, 5),
-      guests: getRandoMinMax(1, 50),
-      checkin: getRandomNumber(USER_CHECKIN),
-      checkout: getRandomNumber(USER_CHECKOUT),
-      features: USER_FEATURES,
-      description: '',
-      photos: shuffleArray(USER_PHOTOS)
-    },
+      offer: {
+        title: USER_TITLES[i],
+        address: locationX + ', ' + locationY,
+        price: Math.ceil(getRandoMinMax(1000, 1000000) / 1000.0) * 1000, // округляем до 1000
+        type: getRandomNumber(USER_TYPES),
+        rooms: getRandoMinMax(1, 5),
+        guests: getRandoMinMax(1, 50),
+        checkin: getRandomNumber(USER_CHECKIN),
+        checkout: getRandomNumber(USER_CHECKOUT),
+        features: USER_FEATURES,
+        description: '',
+        photos: shuffleArray(USER_PHOTOS)
+      },
 
-    location: {
-      x: locationX,
-      y: locationY
-    }
-  };
+      location: {
+        x: locationX,
+        y: locationY
+      }
+    };
+  }
 }
-
+start();
 // Активация карты
 var mapActiv = document.querySelector('.map');
 mapActiv.classList.remove('map--faded');
@@ -62,14 +64,14 @@ var PIN_COPY = document.querySelector('#pin').content.querySelector('.map__pin')
 var PIN_PASTE = document.querySelector('.map__pins');
 
 // ширина высота пина
-var PIN_WIDTH = PIN_PASTE.getElementsByTagName('img')[0].width / 2;
-var PIN_HEIGHT = PIN_PASTE.getElementsByTagName('img')[0].height / 2;
+var pinWidth = PIN_PASTE.getElementsByTagName('img')[0].width / 2;
+var pinHeight = PIN_PASTE.getElementsByTagName('img')[0].height / 2;
 
 // дом шаблон
 var renderPin = function (pin) {
   var wizardElement = PIN_COPY.cloneNode(true);
-  wizardElement.style.left = (pin.location.x - PIN_WIDTH) + 'px';
-  wizardElement.style.top = (pin.location.y - PIN_HEIGHT) + 'px';
+  wizardElement.style.left = (pin.location.x - pinWidth) + 'px';
+  wizardElement.style.top = (pin.location.y - pinHeight) + 'px';
   wizardElement.querySelector('img').src = pin.author.avatar;
   wizardElement.querySelector('img').alt = pin.offer.title;
   wizardElement.querySelector('img').style.pointerEvents = 'none';
@@ -78,8 +80,8 @@ var renderPin = function (pin) {
 
 // Отрисовка сгенерированного пина
 var fragment = document.createDocumentFragment();
-for (var l = 0; l < usersArrays.length; l++) {
-  fragment.appendChild(renderPin(usersArrays[l]));
+for (var l = 0; l < users.length; l++) {
+  fragment.appendChild(renderPin(users[l]));
 }
 PIN_PASTE.appendChild(fragment);
 
@@ -98,16 +100,16 @@ document.querySelector('.map').addEventListener('click', function (event) {
     var pinAlt = event.target.querySelector('img').alt;
 
     // отрисовать попап на странице
-    arraySearch(pinAlt);
+    renderPopupByTitle(pinAlt);
   }
 });
 
 /*                          */
 // ф-ция поиска массива
-var arraySearch = function (pinAlt) {
-  for (var count = 0; count < usersArrays.length; count++) {
-    if (pinAlt === usersArrays[count].offer.title) {
-      popupMap.appendChild(renderPopup(usersArrays[count]));
+var renderPopupByTitle = function (pinAlt) {
+  for (var count = 0; count < users.length; count++) {
+    if (pinAlt === users[count].offer.title) {
+      popupMap.appendChild(renderPopup(users[count]));
     }
   }
 };
