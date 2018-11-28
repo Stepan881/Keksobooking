@@ -8,13 +8,13 @@ var USER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'con
 var USER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 // рандом от х до х
-var randoMinMax = function (min, max) {
+var getRandoMinMax = function (min, max) {
   return Math.round(min + Math.random() * (max - min));
 };
 
 // рандом значения массива
-var randonArr = function (array) {
-  return array [Math.floor(Math.random() * array.length)];
+var getRandomNumber = function (elements) {
+  return elements [Math.floor(Math.random() * elements.length)];
 };
 // размер блока в котором перетаскивается метка
 var BLOCK_PIN = document.querySelector('.map__overlay');
@@ -22,28 +22,28 @@ var BLOCK_PIN_HEIGHT = 200;
 var BLOCK_PIN_WIDTH = BLOCK_PIN.clientWidth - 50;
 
 // массив объектов
-var userArrays = [];
-for (var i = 0; i < USER_AVATARS.length; i++) {
-  var locationX = randoMinMax(BLOCK_PIN_WIDTH, BLOCK_PIN_HEIGHT);
-  var locationY = randoMinMax(130, 630);
+var usersArrays = [];
+for (var a = 0; a < USER_AVATARS.length; a++) {
+  var locationX = getRandoMinMax(BLOCK_PIN_WIDTH, BLOCK_PIN_HEIGHT);
+  var locationY = getRandoMinMax(130, 630);
 
-  userArrays[i] = {
+  usersArrays[a] = {
     author: {
-      avatar: USER_AVATARS[i]
+      avatar: USER_AVATARS[a]
     },
 
     offer: {
-      title: USER_TITLES[i],
+      title: USER_TITLES[a],
       address: locationX + ', ' + locationY,
-      price: randoMinMax(1000, 1000000),
-      type: randonArr(USER_TYPES),
-      rooms: randoMinMax(1, 5),
-      guests: randoMinMax(1, 50),
-      checkin: randonArr(USER_CHECKIN),
-      checkout: randonArr(USER_CHECKOUT),
+      price: Math.ceil(getRandoMinMax(1000, 1000000) / 1000.0) * 1000, // округляем до 1000
+      type: getRandomNumber(USER_TYPES),
+      rooms: getRandoMinMax(1, 5),
+      guests: getRandoMinMax(1, 50),
+      checkin: getRandomNumber(USER_CHECKIN),
+      checkout: getRandomNumber(USER_CHECKOUT),
       features: USER_FEATURES,
       description: '',
-      photos: USER_PHOTOS
+      photos: shuffleArray(USER_PHOTOS)
     },
 
     location: {
@@ -72,21 +72,16 @@ var renderPin = function (pin) {
   wizardElement.style.top = (pin.location.y - PIN_HEIGHT) + 'px';
   wizardElement.querySelector('img').src = pin.author.avatar;
   wizardElement.querySelector('img').alt = pin.offer.title;
+  wizardElement.querySelector('img').style.pointerEvents = 'none';
   return wizardElement;
 };
 
 // Отрисовка сгенерированного пина
 var fragment = document.createDocumentFragment();
-for (var l = 0; l < userArrays.length; l++) {
-  fragment.appendChild(renderPin(userArrays[l]));
+for (var l = 0; l < usersArrays.length; l++) {
+  fragment.appendChild(renderPin(usersArrays[l]));
 }
 PIN_PASTE.appendChild(fragment);
-
-/*
-по клику на пин ( type="button" class="map__pin" ),
-открывается модальное окно template id="card" перед class="map__filters-container" container__popup
-закрыть модалку type="button" class="popup__close"
-*/
 
 // Вырезаем окно попапа
 var POPUP = document.querySelector('#card').content.querySelector('.popup');
@@ -94,18 +89,53 @@ var POPUP = document.querySelector('#card').content.querySelector('.popup');
 document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', '<div class="map__popup"></div>');
 var popupMap = document.querySelector('.map__popup');
 // вставляем попап
-popupMap.appendChild(POPUP);
+// popupMap.appendChild(POPUP);
 
-/*
-  Поиск всех .map__pin
-  клик вызывает попап с данными масива
-*/
-var temp = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+document.querySelector('.map').addEventListener('click', function (event) {
+  // console.log(event.target);  то на что кликнули
+  var classList = event.target.classList;
+  if (classList.contains('map__pin') && !classList.contains('map__pin--main')) {
+    var pinAlt = event.target.querySelector('img').alt;
 
-for (var q = 0; q < temp.length; q++) {
-  temp[q].addEventListener('click', function (evt) {
-    evt.preventDefault();
+    // отрисовать попап на странице
+    arraySearch(pinAlt);
+  }
+});
 
-  });
+/*                          */
+// ф-ция поиска массива
+var arraySearch = function (pinAlt) {
+  for (var count = 0; count < usersArrays.length; count++) {
+    if (pinAlt === usersArrays[count].offer.title) {
+      popupMap.appendChild(renderPopup(usersArrays[count]));
+    }
+  }
+};
+
+var renderPopup = function (popup) {
+  var newPopup = POPUP.cloneNode(true);
+  newPopup.querySelector('img').src = popup.author.avatar;
+  newPopup.querySelector('.popup__title').textContent = popup.offer.title;
+  newPopup.querySelector('.popup__text--price').textContent = popup.offer.price + '\u20BD';
+  newPopup.querySelector('.popup__text--price').insertAdjacentHTML('beforeend', '<span>/ночь</span>');
+  newPopup.querySelector('.popup__type').textContent = popup.offer.type;
+  newPopup.querySelector('.popup__text--capacity').textContent = popup.offer.rooms + ' комнаты для ' + popup.offer.guests + ' гостей';
+  newPopup.querySelector('.popup__text--time').textContent = 'Заезд после ' + popup.offer.checkin + ' выезд до ' + popup.offer.checkout;
+  var popupPhoto = newPopup.querySelector('.popup__photos');
+  var elem = popupPhoto.querySelector('img');
+  elem.parentNode.removeChild(elem);
+  for (var z = 0; z < USER_PHOTOS.length; z++) {
+    popupPhoto.insertAdjacentHTML('beforeend', '<img src="' + USER_PHOTOS[z] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+  }
+  return newPopup;
+};
+
+// рандом без повтора
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
 }
-
