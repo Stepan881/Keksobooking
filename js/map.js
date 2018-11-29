@@ -64,14 +64,12 @@ var PIN_COPY = document.querySelector('#pin').content.querySelector('.map__pin')
 var PIN_PASTE = document.querySelector('.map__pins');
 
 // ширина высота пина
-var pinWidth = PIN_PASTE.getElementsByTagName('img')[0].width / 2;
-var pinHeight = PIN_PASTE.getElementsByTagName('img')[0].height / 2;
-
+var pins = PIN_PASTE.getElementsByTagName('img')[0];
 // дом шаблон
 var renderPin = function (pin) {
   var wizardElement = PIN_COPY.cloneNode(true);
-  wizardElement.style.left = (pin.location.x - pinWidth) + 'px';
-  wizardElement.style.top = (pin.location.y - pinHeight) + 'px';
+  wizardElement.style.left = (pin.location.x - (pins.width / 2)) + 'px';
+  wizardElement.style.top = (pin.location.y - (pins.height / 2)) + 'px';
   wizardElement.querySelector('img').src = pin.author.avatar;
   wizardElement.querySelector('img').alt = pin.offer.title;
   wizardElement.querySelector('img').style.pointerEvents = 'none';
