@@ -59,17 +59,17 @@ start();
 var mapActiv = document.querySelector('.map');
 mapActiv.classList.remove('map--faded');
 // Берем Pin
-var PIN_COPY = document.querySelector('#pin').content.querySelector('.map__pin');
+var pinCopy = document.querySelector('#pin').content.querySelector('.map__pin');
 // Вставляем пин
-var PIN_PASTE = document.querySelector('.map__pins');
+var mapPins = document.querySelector('.map__pins');
 
 // ширина высота пина
-var pins = PIN_PASTE.getElementsByTagName('img')[0];
+var pinImg = mapPins.getElementsByTagName('img')[0];
 // дом шаблон
 var renderPin = function (pin) {
-  var wizardElement = PIN_COPY.cloneNode(true);
-  wizardElement.style.left = (pin.location.x - (pins.width / 2)) + 'px';
-  wizardElement.style.top = (pin.location.y - (pins.height / 2)) + 'px';
+  var wizardElement = pinCopy.cloneNode(true);
+  wizardElement.style.left = (pin.location.x - (pinImg.width / 2)) + 'px';
+  wizardElement.style.top = (pin.location.y - (pinImg.height / 2)) + 'px';
   wizardElement.querySelector('img').src = pin.author.avatar;
   wizardElement.querySelector('img').alt = pin.offer.title;
   wizardElement.querySelector('img').style.pointerEvents = 'none';
@@ -81,7 +81,7 @@ var fragment = document.createDocumentFragment();
 for (var l = 0; l < users.length; l++) {
   fragment.appendChild(renderPin(users[l]));
 }
-PIN_PASTE.appendChild(fragment);
+mapPins.appendChild(fragment);
 
 // Вырезаем окно попапа
 var POPUP = document.querySelector('#card').content.querySelector('.popup');
