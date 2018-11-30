@@ -84,12 +84,12 @@ for (var l = 0; l < users.length; l++) {
 mapPins.appendChild(fragment);
 
 // Вырезаем окно попапа
-var POPUP = document.querySelector('#card').content.querySelector('.popup');
+var windowPopup = document.querySelector('#card').content.querySelector('.popup');
 // Подготовка места для попапа
 document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', '<div class="map__popup"></div>');
 var popupMap = document.querySelector('.map__popup');
 // вставляем попап
-// popupMap.appendChild(POPUP);
+// popupMap.appendChild(windowPopup);
 
 document.querySelector('.map').addEventListener('click', function (event) {
   // console.log(event.target);  то на что кликнули
@@ -113,7 +113,7 @@ var renderPopupByTitle = function (pinAlt) {
 };
 
 var renderPopup = function (popup) {
-  var newPopup = POPUP.cloneNode(true);
+  var newPopup = windowPopup.cloneNode(true);
   newPopup.querySelector('img').src = popup.author.avatar;
   newPopup.querySelector('.popup__title').textContent = popup.offer.title;
   newPopup.querySelector('.popup__text--price').textContent = popup.offer.price + '\u20BD';
