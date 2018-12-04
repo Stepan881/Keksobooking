@@ -35,7 +35,7 @@ var shuffleArray = function (array) {
 };
 
 // рандом features
-function featuresSlice(array) {
+function sliceFeatures(array) {
   return array.slice(0, getRandoMinMax(0, array.length));
 }
 
@@ -55,6 +55,7 @@ var getRenameType = function (array) {
   }
   return index;
 };
+
 // массив объектов
 var users = [];
 function start() {
@@ -75,7 +76,7 @@ function start() {
         guests: getRandoMinMax(1, 50),
         checkin: getRandomNumber(USER_CHECKIN),
         checkout: getRandomNumber(USER_CHECKOUT),
-        features: featuresSlice(shuffleArray(USER_FEATURES)),
+        features: sliceFeatures(shuffleArray(USER_FEATURES)),
         description: '',
         photos: shuffleArray(USER_PHOTOS)
       },
@@ -89,11 +90,8 @@ function start() {
 }
 start();
 
-
 // Активация карты
 var mapActiv = document.querySelector('.map');
-// mapActiv.classList.remove('map--faded');
-
 
 // создание Pin
 var pinCopy = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -113,7 +111,6 @@ var fragment = document.createDocumentFragment();
 for (var l = 0; l < users.length; l++) {
   fragment.appendChild(renderPin(users[l]));
 }
-// mapPins.appendChild(fragment);
 
 // попап
 var windowPopup = document.querySelector('#card').content.querySelector('.popup');
@@ -147,7 +144,6 @@ var renderPopup = function (popup) {
   }
   return newPopup;
 };
-//
 
 // нажатие на pin
 document.querySelector('.map').addEventListener('click', function (event) {
