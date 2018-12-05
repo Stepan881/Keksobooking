@@ -311,7 +311,7 @@ var getValueInLimit = function (value, min, max) {
   return value;
 };
 
-var pinCoords = function (pos) {
+var getPinCoords = function (pos) {
   pos.x = getValueInLimit(pos.x, restrictionsMinX, restrictionsMaxX);
   pos.y = getValueInLimit(pos.y, restrictionsMinY, restrictionsMaxY);
   return pos;
@@ -344,7 +344,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    pinCoords(resultCoords);
+    getPinCoords(resultCoords);
 
     mapPinMain.style.top = resultCoords.y + 'px';
     mapPinMain.style.left = resultCoords.x + 'px';
