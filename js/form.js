@@ -2,7 +2,7 @@
 (function () {
 
   // input disabled
-  var inpitDisable = function (onOff) {
+  var disableInput = function (onOff) {
     var inputs = document.querySelectorAll('.ad-form input');
     var selects = document.querySelectorAll('.ad-form select');
     document.querySelector('textarea').disabled = onOff;
@@ -15,7 +15,7 @@
     inp(selects, onOff);
     document.querySelector('#address').setAttribute('readonly', true);
   };
-  inpitDisable(true);
+  disableInput(true);
   // поля формы
   var typeHouse = document.querySelector('#type');
   var priceHouse = document.querySelector('#price');
@@ -46,30 +46,35 @@
 
   var getRoom = function (evt) {
     var value = evt.target.value;
-    if (value === '1') {
-      capacityOption[0].disabled = true;
-      capacityOption[1].disabled = true;
-      capacityOption[2].disabled = false;
-      capacityOption[2].selected = true;
-      capacityOption[3].disabled = true;
-    } else if (value === '2') {
-      capacityOption[0].disabled = true;
-      capacityOption[1].disabled = false;
-      capacityOption[2].disabled = false;
-      capacityOption[2].selected = true;
-      capacityOption[3].disabled = true;
-    } else if (value === '3') {
-      capacityOption[0].disabled = false;
-      capacityOption[1].disabled = false;
-      capacityOption[2].disabled = false;
-      capacityOption[2].selected = true;
-      capacityOption[3].disabled = true;
-    } else if (value === '100') {
-      capacityOption[0].disabled = false;
-      capacityOption[1].disabled = false;
-      capacityOption[2].disabled = false;
-      capacityOption[3].disabled = true;
-      capacityOption[3].selected = true;
+    switch (value) {
+      case '1':
+        capacityOption[0].disabled = true;
+        capacityOption[1].disabled = true;
+        capacityOption[2].disabled = false;
+        capacityOption[2].selected = true;
+        capacityOption[3].disabled = true;
+        break;
+      case '2':
+        capacityOption[0].disabled = true;
+        capacityOption[1].disabled = false;
+        capacityOption[2].disabled = false;
+        capacityOption[2].selected = true;
+        capacityOption[3].disabled = true;
+        break;
+      case '3':
+        capacityOption[0].disabled = false;
+        capacityOption[1].disabled = false;
+        capacityOption[2].disabled = false;
+        capacityOption[2].selected = true;
+        capacityOption[3].disabled = true;
+        break;
+      case '100':
+        capacityOption[0].disabled = false;
+        capacityOption[1].disabled = false;
+        capacityOption[2].disabled = false;
+        capacityOption[3].disabled = true;
+        capacityOption[3].selected = true;
+        break;
     }
   };
   typeHouse.addEventListener('change', getPriceHouse);
@@ -98,6 +103,6 @@
     }
   });
   window.form = {
-    inpitDisable: inpitDisable
+    disableInput: disableInput
   };
 })();

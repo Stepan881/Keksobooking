@@ -52,7 +52,7 @@
   mapPinMain.addEventListener('click', function () {
     mapActiv.classList.remove('map--faded');
     window.pin.mapPins.appendChild(window.pin.fragment);
-    window.form.inpitDisable(false);
+    window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
     var inputAddres = document.querySelector('#address');
