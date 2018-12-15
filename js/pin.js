@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+
   // создание Pin
   var pinCopy = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
@@ -13,21 +14,16 @@
     wizardElement.querySelector('img').style.pointerEvents = 'none';
     return wizardElement;
   };
-  // Отрисовка сгенерированного пина
-  var fragment = document.createDocumentFragment();
-  for (var l = 0; l < window.data.users.length; l++) {
-    fragment.appendChild(renderPin(window.data.users[l]));
-  }
 
   // нажатие на pin
-
-  document.querySelector('.map').addEventListener('click', function (event) {
+  document.querySelector('.map__pin--main').addEventListener('click', function (event) {
+    window.backend.load(window.data.onSuccess, window.data.onError);
     var classList = event.target.classList;
     if (classList.contains('map__pin') && !classList.contains('map__pin--main')) {
       var pinAlt = event.target.querySelector('img').alt;
-      for (var count = 0; count < window.data.users.length; count++) {
-        if (pinAlt === window.data.users[count].offer.title) {
-          window.map.popupMap.appendChild(window.map.renderPopup(window.data.users[count]));
+      for (var count = 0; count < window.getUsers.length; count++) {
+        if (pinAlt === window.getUsers[count].offer.title) {
+          window.map.popupMap.appendChild(window.map.renderPopup(window.getUsers[count]));
         }
       }
 
@@ -47,7 +43,7 @@
     }
   });
   window.pin = {
-    mapPins: mapPins,
-    fragment: fragment
+    renderPin: renderPin,
+    mapPins: mapPins
   };
 })();
