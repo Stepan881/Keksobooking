@@ -49,21 +49,15 @@
 
   // Активация карты по клику на пин
   var mapPinMain = document.querySelector('.map__pin--main');
-  mapPinMain.addEventListener('click', function () {
-    mapActiv.classList.remove('map--faded');
-    window.pin.mapPins.appendChild(window.pin.fragment);
-    window.form.disableInput(false);
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
-    var inputAddres = document.querySelector('#address');
-    inputAddres.value = Math.round(parseInt(mapPinMain.style.left, 10) + (mapPinMain.offsetWidth / 2)) + ', ' + Math.round(parseInt(mapPinMain.style.top, 10) + (mapPinMain.offsetHeight + 22));
-  });
 
   // ограничения пина
+  var blockPin = document.querySelector('.map__overlay');
+
   var restrictionsMinY = 130 - mapPinMain.offsetHeight - 22;
   var restrictionsMaxY = 630;
   var restrictionsMinX = 0 - mapPinMain.offsetWidth / 2;
-  var restrictionsMaxX = window.data.blockPin.offsetWidth - mapPinMain.offsetWidth / 2;
+  var restrictionsMaxX = blockPin.offsetWidth - mapPinMain.offsetWidth / 2;
 
   var getValueInLimit = function (value, min, max) {
     if (value < min) {
@@ -126,6 +120,8 @@
     document.addEventListener('mouseup', onMouseUp);
   });
   window.map = {
+    mapPinMain: mapPinMain,
+    mapActiv: mapActiv,
     renderPopup: renderPopup,
     popupMap: popupMap
   };

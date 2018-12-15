@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-
+  var ESC_KEYCODE = 27;
   // input disabled
   var disableInput = function (onOff) {
     var inputs = document.querySelectorAll('.ad-form input');
@@ -102,7 +102,53 @@
       target.setCustomValidity('');
     }
   });
+
+  // успешная отправка формы
+  var main = document.querySelector('main');
+  var popapSuccess = document.querySelector('#success');
+  var renderSuccess = popapSuccess.content.querySelector('.success').cloneNode(true);
+
+  var popupSuccess = function () {
+    main.appendChild(renderSuccess);
+    // Закрыть попап Success
+    renderSuccess.addEventListener('click', function (evt) {
+
+      if (evt.target.className === 'success') {
+        main.removeChild(renderSuccess);
+      }
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        main.removeChild(renderSuccess);
+      }
+    });
+  };
+
+  var getForm = document.querySelector('.ad-form');
+
+  getForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(getForm), function () {
+      console.log('Перейти в исходное состояние');
+      window.data.resetPage();
+      popupSuccess();
+    }, function (response) {
+      window.data.popupError(response);
+    });
+  });
+
+  var resetBtn = document.querySelector('.ad-form__reset');
+  resetBtn.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    console.log('click очистить');
+
+    window.data.resetPage();
+  });
+
+
   window.form = {
+    title: title,
     disableInput: disableInput
   };
 })();
