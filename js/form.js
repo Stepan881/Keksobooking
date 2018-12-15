@@ -130,7 +130,6 @@
   getForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(getForm), function () {
-      console.log('Перейти в исходное состояние');
       window.data.resetPage();
       popupSuccess();
     }, function (response) {
@@ -141,7 +140,6 @@
   var resetBtn = document.querySelector('.ad-form__reset');
   resetBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
-    console.log('click очистить');
 
     window.data.resetPage();
   });

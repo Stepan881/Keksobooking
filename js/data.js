@@ -29,7 +29,6 @@
 
 
   var popupError = function (error) {
-    console.log(error);
     renderError.querySelector('.error__message').textContent = errorCode(error);
     main.appendChild(renderError);
 
@@ -91,7 +90,6 @@
     pinPosition.style.left = pinPositionLeft;
     pinPosition.style.top = pinPositionTop;
     popupMap.innerHTML = '';
-    console.log('resetPage');
   };
 
   window.data = {

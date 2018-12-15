@@ -15,7 +15,7 @@
     return wizardElement;
   };
 
-// нажатие на pin
+  // нажатие на pin
   document.querySelector('.map__pin--main').addEventListener('click', function (event) {
     window.backend.load(window.data.onSuccess, window.data.onError);
     var classList = event.target.classList;
