@@ -35,7 +35,7 @@
   };
   // закрыть попап
 
-  function removeClassPinActiv() {
+  function removeClassPinActive() {
     var pin = document.querySelector('.map__pin--active');
     if (pin) {
       pin.classList.remove('map__pin--active');
@@ -45,13 +45,13 @@
   popupMap.addEventListener('click', function (evt) {
     if (evt.target.className === 'popup__close') {
       popupMap.innerHTML = '';
-      removeClassPinActiv();
+      removeClassPinActive();
     }
   });
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       popupMap.innerHTML = '';
-      removeClassPinActiv();
+      removeClassPinActive();
     }
   });
   // Активация карты по клику на пин

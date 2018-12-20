@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-
+  var MAX_PIN = 5;
   var housingType = document.querySelector('#housing-type');
   var housingPrice = document.querySelector('#housing-price');
   var housingRooms = document.querySelector('#housing-rooms');
@@ -49,9 +49,9 @@
     var filterType = window.getUsers.filter(function (array) {
       if (housingType.options[housingType.selectedIndex].value === 'any') {
         return array.offer.type;
-      } else {
-        return array.offer.type === housingType.options[housingType.selectedIndex].value;
       }
+      return array.offer.type === housingType.options[housingType.selectedIndex].value;
+
     });
 
     var filterPrice = filterType.filter(function (array) {
@@ -61,9 +61,8 @@
         return array.offer.price > 0 && array.offer.price < 10000;
       } else if (housingPrice.options[housingPrice.selectedIndex].value === 'high') {
         return array.offer.price > 50000;
-      } else {
-        return array;
       }
+      return array;
     });
 
     var filterRoom = filterPrice.filter(function (array) {
@@ -73,9 +72,8 @@
         return array.offer.rooms === 2;
       } else if (housingRooms.options[housingRooms.selectedIndex].value === '3') {
         return array.offer.rooms === 3;
-      } else {
-        return array;
       }
+      return array;
     });
 
     var filterGuest = filterRoom.filter(function (array) {
@@ -85,9 +83,8 @@
         return array.offer.guests === 1;
       } else if (housingGuests.options[housingGuests.selectedIndex].value === '0') {
         return array.offer.guests === 0;
-      } else {
-        return array;
       }
+      return array;
     });
 
     var featuresConditioner = filterGuest.filter(function (array) {
@@ -102,7 +99,7 @@
 
     var fragment = document.createDocumentFragment();
     for (i = 0; i < featuresConditioner.length; i++) {
-      if (i < 5) {
+      if (i < MAX_PIN) {
         fragment.appendChild(window.pin.renderPin(featuresConditioner[i]));
       }
     }

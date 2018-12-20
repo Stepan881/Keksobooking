@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var MAX_PIN = 5;
   var ESC_KEYCODE = 27;
   var main = document.querySelector('main');
   var popapError = document.querySelector('#error');
@@ -57,7 +58,7 @@
     window.getUsers = data;
     // сортировка массива DATA
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < MAX_PIN; i++) {
       fragment.appendChild(window.pin.renderPin(window.getUsers[i]));
     }
     // console.log(window.getUsers);
