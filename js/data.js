@@ -7,32 +7,17 @@
   var renderError = popapError.content.querySelector('.error').cloneNode(true);
 
   // ошибки
-  function errorCode(code) {
-    var cod = '';
-    switch (code) {
-      case 400:
-        cod = 'Неверный запрос';
-        break;
-      case 401:
-        cod = 'Пользователь не авторизован';
-        break;
-      case 404:
-        cod = 'Ничего не найдено';
-        break;
-      case 500:
-        cod = 'Нет соедеинения с сервером';
-        break;
-      default:
-        cod = 'Cтатус ответа: : ' + code;
-    }
-    return cod;
-  }
-
+  var ErrorCode = {
+    400: 'Неверный запрос',
+    401: 'Пользователь не авторизован',
+    404: 'Ничего не найдено',
+    500: 'Нет соедеинения с сервером',
+    undefined: 'Повторите попытку позднее'
+  };
 
   var popupError = function (error) {
-    renderError.querySelector('.error__message').textContent = errorCode(error);
+    renderError.querySelector('.error__message').textContent = ErrorCode[error];
     main.appendChild(renderError);
-
     // Закрыть попап error
     var popapClose = document.querySelector('.error');
     main.addEventListener('click', function (evt) {

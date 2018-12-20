@@ -24,6 +24,7 @@
     var inputAddres = document.querySelector('#address');
     inputAddres.value = Math.round(parseInt(window.map.mapPinMain.style.left, 10) + (window.map.mapPinMain.offsetWidth / 2)) + ', ' + Math.round(parseInt(window.map.mapPinMain.style.top, 10) + (window.map.mapPinMain.offsetHeight + 22));
     window.map.mapActiv.classList.remove('map--faded');
+    window.sort.renderFilter();
   });
 
   document.querySelector('.map').addEventListener('click', function (event) {
