@@ -24,8 +24,6 @@
       for (var iIcon = 0; iIcon < popup.offer.features.length; iIcon++) {
         featuresList.insertAdjacentHTML('afterbegin', '<li class="popup__feature popup__feature--' + popup.offer.features[iIcon] + '"></li>');
       }
-    } else {
-      newPopup.querySelector('.popup__features').style.display = 'none';
     }
 
     var popupPhoto = newPopup.querySelector('.popup__photos');
@@ -36,24 +34,30 @@
     return newPopup;
   };
   // закрыть попап
+
+  function removeClassPinActiv() {
+    var pin = document.querySelector('.map__pin--active');
+    if (pin) {
+      pin.classList.remove('map__pin--active');
+    }
+  }
+
   popupMap.addEventListener('click', function (evt) {
     if (evt.target.className === 'popup__close') {
       popupMap.innerHTML = '';
+      removeClassPinActiv();
     }
   });
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       popupMap.innerHTML = '';
+      removeClassPinActiv();
     }
   });
-
   // Активация карты по клику на пин
   var mapPinMain = document.querySelector('.map__pin--main');
-
-
   // ограничения пина
   var blockPin = document.querySelector('.map__overlay');
-
   var restrictionsMinY = 130 - mapPinMain.offsetHeight - 22;
   var restrictionsMaxY = 630;
   var restrictionsMinX = 0 - mapPinMain.offsetWidth / 2;
@@ -78,7 +82,6 @@
   // перетаскивание пина
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY

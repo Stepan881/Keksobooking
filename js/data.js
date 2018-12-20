@@ -55,19 +55,16 @@
   var onSuccess = function (data) {
     // console.log(data);
     window.getUsers = data;
+    // сортировка массива DATA
     var fragment = document.createDocumentFragment();
-    for (var l = 0; l < window.getUsers.length; l++) {
-      fragment.appendChild(window.pin.renderPin(window.getUsers[l]));
+    for (var i = 0; i < 5; i++) {
+      fragment.appendChild(window.pin.renderPin(window.getUsers[i]));
     }
-
+    // console.log(window.getUsers);
     window.map.mapActiv.classList.remove('map--faded');
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-
-    var inputAddres = document.querySelector('#address');
-    inputAddres.value = Math.round(parseInt(window.map.mapPinMain.style.left, 10) + (window.map.mapPinMain.offsetWidth / 2)) + ', ' + Math.round(parseInt(window.map.mapPinMain.style.top, 10) + (window.map.mapPinMain.offsetHeight + 22));
-
   };
 
   // Исходное состояние страницы
