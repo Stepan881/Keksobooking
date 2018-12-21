@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  // создание Pin
   var pinCopy = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
   var pinImg = mapPins.getElementsByTagName('img')[0];
@@ -14,17 +13,20 @@
     return pinElement;
   };
 
-  // нажатие на pin
-  document.querySelector('.map__pin, .map__pin--main').addEventListener('click', function () {
-    if (!window.getUsers) {
-      window.backend.load(window.data.onSuccess, window.data.onError);
-      window.sort.clearPin();
-    }
-    // click - отрисовать пины');
+  function posPin() {
     var inputAddres = document.querySelector('#address');
     inputAddres.value = Math.round(parseInt(window.map.mapPinMain.style.left, 10) + (window.map.mapPinMain.offsetWidth / 2)) + ', ' + Math.round(parseInt(window.map.mapPinMain.style.top, 10) + (window.map.mapPinMain.offsetHeight + 22));
-    window.map.mapActiv.classList.remove('map--faded');
-    window.sort.renderFilter();
+  }
+
+  document.querySelector('.map__pin, .map__pin--main').addEventListener('click', function () {
+    posPin();
+    if (!window.getUsers) {
+
+      window.backend.load(window.data.onSuccess, window.data.onError);
+      window.sort.clearPin();
+    } else {
+      window.sort.renderFilter();
+    }
   });
 
   document.querySelector('.map').addEventListener('click', function (event) {
@@ -42,7 +44,6 @@
       var divElements = document.querySelectorAll('.map__pin');
       var clickedElement = null;
       var clickHandler = function (evt) {
-        // исправить клики
 
         if (clickedElement) {
           clickedElement.classList.remove('map__pin--active');

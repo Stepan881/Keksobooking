@@ -1,7 +1,6 @@
 'use strict';
 (function () {
   var ESC_KEYCODE = 27;
-  // input disabled
   var disableInput = function (onOff) {
     var inputs = document.querySelectorAll('.ad-form input');
     var selects = document.querySelectorAll('.ad-form select');
@@ -11,18 +10,18 @@
         inpu[i].disabled = on;
       }
     }
+
     inp(inputs, onOff);
     inp(selects, onOff);
     document.querySelector('#address').setAttribute('readonly', true);
   };
+
   disableInput(true);
-  // поля формы
   var typeHouse = document.querySelector('#type');
   var priceHouse = document.querySelector('#price');
   var roomNumber = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
   var capacityOption = capacity.querySelectorAll('option');
-
   var PriceHome = {
     'flat': 1000,
     'bungalo': 0,
@@ -37,6 +36,7 @@
       priceHouse.value = PriceHome[value];
     }
   };
+
   var ROOMS = '100';
   var RoomGuest = {
     '1': ['1'],
@@ -62,7 +62,6 @@
   roomNumber.addEventListener('change', getRoomGuest);
 
   var MIN_LENGHT_TITL = 30;
-  // дополнительная проверка
   var title = document.querySelector('#title');
   title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
@@ -85,14 +84,12 @@
     }
   });
 
-  // успешная отправка формы
   var main = document.querySelector('main');
   var popapSuccess = document.querySelector('#success');
   var renderSuccess = popapSuccess.content.querySelector('.success').cloneNode(true);
 
   var popupSuccess = function () {
     main.appendChild(renderSuccess);
-    // Закрыть попап Success
     renderSuccess.addEventListener('click', function (evt) {
 
       if (evt.target.className === 'success') {
@@ -108,7 +105,6 @@
   };
 
   var getForm = document.querySelector('.ad-form');
-
   getForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(getForm), function () {
@@ -122,10 +118,8 @@
   var resetBtn = document.querySelector('.ad-form__reset');
   resetBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
-
     window.data.resetPage();
   });
-
 
   window.form = {
     title: title,
