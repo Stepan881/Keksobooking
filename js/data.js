@@ -1,37 +1,23 @@
 'use strict';
 (function () {
+  var MAX_PIN = 5;
   var ESC_KEYCODE = 27;
   var main = document.querySelector('main');
   var popapError = document.querySelector('#error');
   var renderError = popapError.content.querySelector('.error').cloneNode(true);
 
   // ошибки
-  function errorCode(code) {
-    var cod = '';
-    switch (code) {
-      case 400:
-        cod = 'Неверный запрос';
-        break;
-      case 401:
-        cod = 'Пользователь не авторизован';
-        break;
-      case 404:
-        cod = 'Ничего не найдено';
-        break;
-      case 500:
-        cod = 'Нет соедеинения с сервером';
-        break;
-      default:
-        cod = 'Cтатус ответа: : ' + code;
-    }
-    return cod;
-  }
-
+  var ErrorCode = {
+    400: 'Неверный запрос',
+    401: 'Пользователь не авторизован',
+    404: 'Ничего не найдено',
+    500: 'Нет соедеинения с сервером',
+    undefined: 'Повторите попытку позднее'
+  };
 
   var popupError = function (error) {
-    renderError.querySelector('.error__message').textContent = errorCode(error);
+    renderError.querySelector('.error__message').textContent = ErrorCode[error];
     main.appendChild(renderError);
-
     // Закрыть попап error
     var popapClose = document.querySelector('.error');
     main.addEventListener('click', function (evt) {
@@ -55,19 +41,16 @@
   var onSuccess = function (data) {
     // console.log(data);
     window.getUsers = data;
+    // сортировка массива DATA
     var fragment = document.createDocumentFragment();
-    for (var l = 0; l < window.getUsers.length; l++) {
-      fragment.appendChild(window.pin.renderPin(window.getUsers[l]));
+    for (var i = 0; i < MAX_PIN; i++) {
+      fragment.appendChild(window.pin.renderPin(window.getUsers[i]));
     }
-
+    // console.log(window.getUsers);
     window.map.mapActiv.classList.remove('map--faded');
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-
-    var inputAddres = document.querySelector('#address');
-    inputAddres.value = Math.round(parseInt(window.map.mapPinMain.style.left, 10) + (window.map.mapPinMain.offsetWidth / 2)) + ', ' + Math.round(parseInt(window.map.mapPinMain.style.top, 10) + (window.map.mapPinMain.offsetHeight + 22));
-
   };
 
   // Исходное состояние страницы

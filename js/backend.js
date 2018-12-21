@@ -22,7 +22,7 @@
       params.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = 10000;
     xhr.open(params.type, url, true);
     xhr.send(params.data ? params.data : undefined);
   }

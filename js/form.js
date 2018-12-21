@@ -22,64 +22,46 @@
   var roomNumber = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
   var capacityOption = capacity.querySelectorAll('option');
+
+  var PriceHome = {
+    'flat': 1000,
+    'bungalo': 0,
+    'house': 5000,
+    'palace': 10000
+  };
+
   var getPriceHouse = function (evt) {
     var value = evt.target.value;
-    switch (value) {
-      case 'flat':
-        priceHouse.min = 1000;
-        priceHouse.value = 1000;
-        break;
-      case 'bungalo':
-        priceHouse.min = 0;
-        priceHouse.value = 0;
-        break;
-      case 'house':
-        priceHouse.min = 5000;
-        priceHouse.value = 5000;
-        break;
-      case 'palace':
-        priceHouse.min = 10000;
-        priceHouse.value = 10000;
-        break;
+    if (value) {
+      priceHouse.min = PriceHome[value];
+      priceHouse.value = PriceHome[value];
+    }
+  };
+  var ROOMS = '100';
+  var RoomGuest = {
+    '1': ['1'],
+    '2': ['1', '2'],
+    '3': ['1', '2', '3'],
+    '100': ['0']
+  };
+
+  var getRoomGuest = function () {
+    var value = RoomGuest[roomNumber.value];
+    for (var i = 0; i < capacityOption.length; i++) {
+      capacityOption[i].removeAttribute('disabled');
+      if (value.indexOf(capacityOption[i].value) === -1) {
+        capacityOption[i].setAttribute('disabled', true);
+      }
+      if (roomNumber.value === capacityOption[i].value || roomNumber.value === ROOMS) {
+        capacityOption[i].selected = true;
+      }
     }
   };
 
-  var getRoom = function (evt) {
-    var value = evt.target.value;
-    switch (value) {
-      case '1':
-        capacityOption[0].disabled = true;
-        capacityOption[1].disabled = true;
-        capacityOption[2].disabled = false;
-        capacityOption[2].selected = true;
-        capacityOption[3].disabled = true;
-        break;
-      case '2':
-        capacityOption[0].disabled = true;
-        capacityOption[1].disabled = false;
-        capacityOption[2].disabled = false;
-        capacityOption[2].selected = true;
-        capacityOption[3].disabled = true;
-        break;
-      case '3':
-        capacityOption[0].disabled = false;
-        capacityOption[1].disabled = false;
-        capacityOption[2].disabled = false;
-        capacityOption[2].selected = true;
-        capacityOption[3].disabled = true;
-        break;
-      case '100':
-        capacityOption[0].disabled = false;
-        capacityOption[1].disabled = false;
-        capacityOption[2].disabled = false;
-        capacityOption[3].disabled = true;
-        capacityOption[3].selected = true;
-        break;
-    }
-  };
   typeHouse.addEventListener('change', getPriceHouse);
-  roomNumber.addEventListener('change', getRoom);
+  roomNumber.addEventListener('change', getRoomGuest);
 
+  var MIN_LENGHT_TITL = 30;
   // дополнительная проверка
   var title = document.querySelector('#title');
   title.addEventListener('invalid', function () {
@@ -96,7 +78,7 @@
 
   title.addEventListener('input', function (evt) {
     var target = evt.target;
-    if (target.value.length < 30) {
+    if (target.value.length < MIN_LENGHT_TITL) {
       target.setCustomValidity('Имя должно состоять минимум из 30 символов');
     } else {
       target.setCustomValidity('');
