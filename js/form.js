@@ -1,6 +1,8 @@
 'use strict';
 (function () {
+  var MIN_LENGHT_TITL = 30;
   var ESC_KEYCODE = 27;
+  var ROOMS = '100';
   var disableInput = function (onOff) {
     var inputs = document.querySelectorAll('.ad-form input');
     var selects = document.querySelectorAll('.ad-form select');
@@ -29,15 +31,14 @@
     'palace': 10000
   };
 
-  var getPriceHouse = function (evt) {
+  function getPriceHouse(evt) {
     var value = evt.target.value;
     if (value) {
       priceHouse.min = PriceHome[value];
       priceHouse.value = PriceHome[value];
     }
-  };
+  }
 
-  var ROOMS = '100';
   var RoomGuest = {
     '1': ['1'],
     '2': ['1', '2'],
@@ -45,7 +46,7 @@
     '100': ['0']
   };
 
-  var getRoomGuest = function () {
+  function getRoomGuest() {
     var value = RoomGuest[roomNumber.value];
     for (var i = 0; i < capacityOption.length; i++) {
       capacityOption[i].removeAttribute('disabled');
@@ -56,12 +57,11 @@
         capacityOption[i].selected = true;
       }
     }
-  };
+  }
 
   typeHouse.addEventListener('change', getPriceHouse);
   roomNumber.addEventListener('change', getRoomGuest);
 
-  var MIN_LENGHT_TITL = 30;
   var title = document.querySelector('#title');
   title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
@@ -86,23 +86,23 @@
 
   var main = document.querySelector('main');
   var popapSuccess = document.querySelector('#success');
-  var renderSuccess = popapSuccess.content.querySelector('.success').cloneNode(true);
+  var popaprenderSuccess = popapSuccess.content.querySelector('.success').cloneNode(true);
 
-  var popupSuccess = function () {
-    main.appendChild(renderSuccess);
-    renderSuccess.addEventListener('click', function (evt) {
+  function popupSuccess() {
+    main.appendChild(popaprenderSuccess);
+    popaprenderSuccess.addEventListener('click', function (evt) {
 
       if (evt.target.className === 'success') {
-        main.removeChild(renderSuccess);
+        main.removeChild(popaprenderSuccess);
       }
     });
 
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        main.removeChild(renderSuccess);
+        main.removeChild(popaprenderSuccess);
       }
     });
-  };
+  }
 
   var getForm = document.querySelector('.ad-form');
   getForm.addEventListener('submit', function (evt) {

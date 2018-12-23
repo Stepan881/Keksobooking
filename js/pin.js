@@ -2,16 +2,16 @@
 (function () {
   var pinCopy = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
-  var pinImg = mapPins.getElementsByTagName('img')[0];
-  var renderPin = function (pin) {
+  var mapPinsImg = mapPins.getElementsByTagName('img')[0];
+  function renderPin(pin) {
     var pinElement = pinCopy.cloneNode(true);
-    pinElement.style.left = (pin.location.x - (pinImg.width / 2)) + 'px';
-    pinElement.style.top = (pin.location.y - (pinImg.height / 2)) + 'px';
+    pinElement.style.left = (pin.location.x - (mapPinsImg.width / 2)) + 'px';
+    pinElement.style.top = (pin.location.y - (mapPinsImg.height / 2)) + 'px';
     pinElement.querySelector('img').src = pin.author.avatar;
     pinElement.querySelector('img').alt = pin.offer.title;
     pinElement.querySelector('img').style.pointerEvents = 'none';
     return pinElement;
-  };
+  }
 
   function posPin() {
     var inputAddres = document.querySelector('#address');
@@ -44,7 +44,6 @@
       var divElements = document.querySelectorAll('.map__pin');
       var clickedElement = null;
       var clickHandler = function (evt) {
-
         if (clickedElement) {
           clickedElement.classList.remove('map__pin--active');
         }

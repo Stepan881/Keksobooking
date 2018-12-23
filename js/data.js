@@ -4,10 +4,9 @@
   var ESC_KEYCODE = 27;
   var main = document.querySelector('main');
   var popapError = document.querySelector('#error');
-  var renderError = popapError.content.querySelector('.error').cloneNode(true);
+  var renderPopapError = popapError.content.querySelector('.error').cloneNode(true);
   var AVATAR_FORM_DEFAULT = document.querySelector('.ad-form-header__preview').querySelector('img');
   var AVATAR_FORM_DEFAULT_SRC = AVATAR_FORM_DEFAULT.src;
-  // ошибки
   var ErrorCode = {
     400: 'Неверный запрос',
     401: 'Пользователь не авторизован',
@@ -16,9 +15,9 @@
     undefined: 'Повторите попытку позднее'
   };
 
-  var popupError = function (error) {
-    renderError.querySelector('.error__message').textContent = ErrorCode[error];
-    main.appendChild(renderError);
+  function popupError(error) {
+    renderPopapError.querySelector('.error__message').textContent = ErrorCode[error];
+    main.appendChild(renderPopapError);
 
     var popapClose = document.querySelector('.error');
     main.addEventListener('click', function (evt) {
@@ -32,14 +31,13 @@
         main.removeChild(popapClose);
       }
     });
-  };
+  }
 
-
-  var onError = function (message) {
+  function onError(message) {
     popupError(message);
-  };
+  }
 
-  var onSuccess = function (data) {
+  function onSuccess(data) {
     window.getUsers = data;
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < MAX_PIN; i++) {
@@ -50,14 +48,14 @@
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-  };
+  }
 
   var pinPosition = document.querySelector('.map__pin, .map__pin--main');
   var pinPositionLeft = pinPosition.style.left;
   var pinPositionTop = pinPosition.style.top;
   var mapPins = document.querySelector('.map__pins');
 
-  var resetPage = function () {
+  function resetPage() {
     var form = document.querySelector('.ad-form');
     var popupMap = document.querySelector('.map__popup');
     var blockPin = document.querySelectorAll('.map__overlay ~ .map__pin');
@@ -79,7 +77,7 @@
     for (i = 0; i < formPhoto.length; i++) {
       photoContainer.removeChild(formPhoto[i]);
     }
-  };
+  }
 
   window.data = {
     resetPage: resetPage,
