@@ -46,16 +46,6 @@
     }
   }
 
-  var lastTimeout;
-  var renderFilter = function () {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      render();
-    }, DEBOUNCE);
-  };
-
   var RoomBound = {
     1: 1,
     2: 2,
@@ -69,18 +59,10 @@
     0: 0,
     any: Infinity
   };
-  // render pin
-  housingType.addEventListener('change', renderFilter);
-  housingPrice.addEventListener('change', renderFilter);
-  housingRooms.addEventListener('change', renderFilter);
-  housingGuests.addEventListener('change', renderFilter);
-  for (var i = 0; i < housingFeaturesConditioner.length; i++) {
-    housingFeaturesConditioner[i].addEventListener('change', renderFilter);
-  }
 
   function render() {
     clearPin();
-    // фильтры
+
     var filterType = window.getUsers.filter(function (array) {
       if (housingType.options[housingType.selectedIndex].value === ANY_VALUE) {
         return array.offer.type;
@@ -133,8 +115,24 @@
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-    var inputAddres = document.querySelector('#address');
-    inputAddres.value = Math.round(parseInt(window.map.mapPinMain.style.left, 10) + (window.map.mapPinMain.offsetWidth / 2)) + ', ' + Math.round(parseInt(window.map.mapPinMain.style.top, 10) + (window.map.mapPinMain.offsetHeight + 22));
+  }
+
+  var lastTimeout;
+  var renderFilter = function () {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      render();
+    }, DEBOUNCE);
+  };
+
+  housingType.addEventListener('change', renderFilter);
+  housingPrice.addEventListener('change', renderFilter);
+  housingRooms.addEventListener('change', renderFilter);
+  housingGuests.addEventListener('change', renderFilter);
+  for (var i = 0; i < housingFeaturesConditioner.length; i++) {
+    housingFeaturesConditioner[i].addEventListener('change', renderFilter);
   }
 
   window.sort = {

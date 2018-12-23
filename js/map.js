@@ -1,9 +1,7 @@
 'use strict';
 (function () {
   var ESC_KEYCODE = 27;
-  // Активация карты
   var mapActiv = document.querySelector('.map');
-  // попап
   var windowPopup = document.querySelector('#card').content.querySelector('.popup');
   document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', '<div class="map__popup"></div>');
   var popupMap = document.querySelector('.map__popup');
@@ -33,7 +31,6 @@
     }
     return newPopup;
   };
-  // закрыть попап
 
   function removeClassPinActive() {
     var pin = document.querySelector('.map__pin--active');
@@ -48,15 +45,16 @@
       removeClassPinActive();
     }
   });
+
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       popupMap.innerHTML = '';
       removeClassPinActive();
     }
   });
-  // Активация карты по клику на пин
+
   var mapPinMain = document.querySelector('.map__pin--main');
-  // ограничения пина
+
   var blockPin = document.querySelector('.map__overlay');
   var restrictionsMinY = 130 - mapPinMain.offsetHeight - 22;
   var restrictionsMaxY = 630;
@@ -79,7 +77,6 @@
     return pos;
   };
 
-  // перетаскивание пина
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoords = {
@@ -106,15 +103,12 @@
       };
 
       getPinCoords(resultCoords);
-
       mapPinMain.style.top = resultCoords.y + 'px';
       mapPinMain.style.left = resultCoords.x + 'px';
-
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -122,6 +116,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
   window.map = {
     mapPinMain: mapPinMain,
     mapActiv: mapActiv,

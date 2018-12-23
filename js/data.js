@@ -5,7 +5,8 @@
   var main = document.querySelector('main');
   var popapError = document.querySelector('#error');
   var renderError = popapError.content.querySelector('.error').cloneNode(true);
-
+  var AVATAR_FORM_DEFAULT = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var AVATAR_FORM_DEFAULT_SRC = AVATAR_FORM_DEFAULT.src;
   // ошибки
   var ErrorCode = {
     400: 'Неверный запрос',
@@ -18,7 +19,7 @@
   var popupError = function (error) {
     renderError.querySelector('.error__message').textContent = ErrorCode[error];
     main.appendChild(renderError);
-    // Закрыть попап error
+
     var popapClose = document.querySelector('.error');
     main.addEventListener('click', function (evt) {
       if (evt.target.className === 'error__button' || evt.target.className === 'error') {
@@ -39,21 +40,18 @@
   };
 
   var onSuccess = function (data) {
-    // console.log(data);
     window.getUsers = data;
-    // сортировка массива DATA
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < MAX_PIN; i++) {
       fragment.appendChild(window.pin.renderPin(window.getUsers[i]));
     }
-    // console.log(window.getUsers);
+
     window.map.mapActiv.classList.remove('map--faded');
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
   };
 
-  // Исходное состояние страницы
   var pinPosition = document.querySelector('.map__pin, .map__pin--main');
   var pinPositionLeft = pinPosition.style.left;
   var pinPositionTop = pinPosition.style.top;
@@ -66,6 +64,7 @@
     for (var i = 1; i < blockPin.length; i++) {
       mapPins.removeChild(blockPin[i]);
     }
+
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
     window.map.mapActiv.classList.add('map--faded');
     form.reset();
@@ -73,6 +72,13 @@
     pinPosition.style.left = pinPositionLeft;
     pinPosition.style.top = pinPositionTop;
     popupMap.innerHTML = '';
+
+    AVATAR_FORM_DEFAULT.src = AVATAR_FORM_DEFAULT_SRC;
+    var photoContainer = document.querySelector('.ad-form__photo-container');
+    var formPhoto = document.querySelectorAll('.ad-form__photo-reset');
+    for (i = 0; i < formPhoto.length; i++) {
+      photoContainer.removeChild(formPhoto[i]);
+    }
   };
 
   window.data = {
