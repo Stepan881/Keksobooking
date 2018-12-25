@@ -1,9 +1,10 @@
 'use strict';
 (function () {
-  var TIMEOUT = 10000;
+  var TIMEOUT = 5000;
   var URL_GET = 'https://js.dump.academy/keksobooking/data';
   var URL_POST = 'https://js.dump.academy/keksobooking';
   var SUCCESS = 200;
+
   function request(params) {
     var url = params.url;
     var xhr = new XMLHttpRequest();

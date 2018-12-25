@@ -3,8 +3,7 @@
   var MAX_PIN = 5;
   var ESC_KEYCODE = 27;
   var main = document.querySelector('main');
-  var popapError = document.querySelector('#error');
-  var renderPopapError = popapError.content.querySelector('.error').cloneNode(true);
+  var errorElement = document.querySelector('#error').content.querySelector('.error');
   var AVATAR_FORM_DEFAULT = document.querySelector('.ad-form-header__preview').querySelector('img');
   var AVATAR_FORM_DEFAULT_SRC = AVATAR_FORM_DEFAULT.src;
   var ErrorCode = {
@@ -16,22 +15,25 @@
   };
 
   function popupError(error) {
-    renderPopapError.querySelector('.error__message').textContent = ErrorCode[error];
-    main.appendChild(renderPopapError);
-
-    var popapClose = document.querySelector('.error');
-    main.addEventListener('click', function (evt) {
-      if (evt.target.className === 'error__button' || evt.target.className === 'error') {
-        main.removeChild(popapClose);
-      }
-    });
-
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        main.removeChild(popapClose);
-      }
-    });
+    errorElement.querySelector('.error__message').textContent = ErrorCode[error] || error;
+    main.appendChild(errorElement);
   }
+
+  main.addEventListener('click', function (evt) {
+    if (evt.target.className === 'error__button' || evt.target.className === 'error') {
+      var renderPopapError = main.querySelector('.error');
+      main.removeChild(renderPopapError);
+    }
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    var classError = document.querySelector('.error');
+    if ((evt.keyCode === ESC_KEYCODE) && (classError)) {
+      var renderPopapError = main.querySelector('.error');
+      main.removeChild(renderPopapError);
+    }
+  });
+
 
   function onError(message) {
     popupError(message);

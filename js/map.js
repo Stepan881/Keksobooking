@@ -1,6 +1,9 @@
 'use strict';
 (function () {
   var ESC_KEYCODE = 27;
+  var WIDTH_MAIN_PIN = 62;
+  var WINDOW_START_Y = 130;
+  var WINDOW_END_Y = 630;
   var mapActiv = document.querySelector('.map');
   var windowPopup = document.querySelector('#card').content.querySelector('.popup');
   document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', '<div class="map__popup"></div>');
@@ -55,9 +58,9 @@
 
   var mapPinMain = document.querySelector('.map__pin--main');
   var blockPin = document.querySelector('.map__overlay');
-  var restrictionsMinY = 130 - mapPinMain.offsetHeight - 22;
-  var restrictionsMaxY = 630;
-  var restrictionsMinX = 0 - mapPinMain.offsetWidth / 2;
+  var restrictionsMinY = WINDOW_START_Y;
+  var restrictionsMaxY = WINDOW_END_Y;
+  var restrictionsMinX = 0 - WIDTH_MAIN_PIN / 2;
   var restrictionsMaxX = blockPin.offsetWidth - mapPinMain.offsetWidth / 2;
 
   function getValueInLimit(value, min, max) {

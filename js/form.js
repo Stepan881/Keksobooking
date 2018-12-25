@@ -3,6 +3,8 @@
   var MIN_LENGHT_TITL = 30;
   var ESC_KEYCODE = 27;
   var ROOMS = '100';
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
   var disableInput = function (onOff) {
     var inputs = document.querySelectorAll('.ad-form input');
     var selects = document.querySelectorAll('.ad-form select');
@@ -15,7 +17,7 @@
 
     inp(inputs, onOff);
     inp(selects, onOff);
-    document.querySelector('#address').setAttribute('readonly', true);
+    document.querySelector('#address').readOnly = true;
   };
 
   disableInput(true);
@@ -31,7 +33,7 @@
     'palace': 10000
   };
 
-  function getPriceHouse(evt) {
+  function changePriceHouseHandler(evt) {
     var value = evt.target.value;
     if (value) {
       priceHouse.min = PriceHome[value];
@@ -46,12 +48,12 @@
     '100': ['0']
   };
 
-  function getRoomGuest() {
+  function changeRoomGuestHandler() {
     var value = RoomGuest[roomNumber.value];
     for (var i = 0; i < capacityOption.length; i++) {
-      capacityOption[i].removeAttribute('disabled');
+      capacityOption[i].disabled = false;
       if (value.indexOf(capacityOption[i].value) === -1) {
-        capacityOption[i].setAttribute('disabled', true);
+        capacityOption[i].disabled = true;
       }
       if (roomNumber.value === capacityOption[i].value || roomNumber.value === ROOMS) {
         capacityOption[i].selected = true;
@@ -59,8 +61,8 @@
     }
   }
 
-  typeHouse.addEventListener('change', getPriceHouse);
-  roomNumber.addEventListener('change', getRoomGuest);
+  typeHouse.addEventListener('change', changePriceHouseHandler);
+  roomNumber.addEventListener('change', changeRoomGuestHandler);
 
   var title = document.querySelector('#title');
   title.addEventListener('invalid', function () {
@@ -85,24 +87,25 @@
   });
 
   var main = document.querySelector('main');
-  var popapSuccess = document.querySelector('#success');
-  var popaprenderSuccess = popapSuccess.content.querySelector('.success').cloneNode(true);
-
+  var successClone = document.querySelector('#success');
+  var successElement = successClone.content.querySelector('.success').cloneNode(true);
   function popupSuccess() {
-    main.appendChild(popaprenderSuccess);
-    popaprenderSuccess.addEventListener('click', function (evt) {
-
-      if (evt.target.className === 'success') {
-        main.removeChild(popaprenderSuccess);
-      }
-    });
-
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        main.removeChild(popaprenderSuccess);
-      }
-    });
+    main.appendChild(successElement);
   }
+
+  successElement.addEventListener('click', function (evt) {
+
+    if (evt.target.className === 'success') {
+      main.removeChild(successElement);
+    }
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    var success = document.querySelector('.success');
+    if (evt.keyCode === ESC_KEYCODE && success) {
+      main.removeChild(successElement);
+    }
+  });
 
   var getForm = document.querySelector('.ad-form');
   getForm.addEventListener('submit', function (evt) {
@@ -120,6 +123,14 @@
     evt.preventDefault();
     window.data.resetPage();
   });
+
+  function changeTimeHandler(event) {
+    timeIn.value = event.target.value;
+    timeOut.value = event.target.value;
+  }
+
+  timeIn.addEventListener('change', changeTimeHandler);
+  timeOut.addEventListener('change', changeTimeHandler);
 
   window.form = {
     title: title,
