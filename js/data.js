@@ -2,6 +2,7 @@
 (function () {
   var MAX_PIN = 5;
   var ESC_KEYCODE = 27;
+  var ROOM = '1';
   var main = document.querySelector('main');
   var errorElement = document.querySelector('#error').content.querySelector('.error');
   var AVATAR_FORM_DEFAULT = document.querySelector('.ad-form-header__preview').querySelector('img');
@@ -17,23 +18,29 @@
   function popupError(error) {
     errorElement.querySelector('.error__message').textContent = ErrorCode[error] || error;
     main.appendChild(errorElement);
+    errorElement.addEventListener('click', closePopupClickHandler);
+    document.addEventListener('keydown', closePopupByEscHandler);
+
   }
 
-  main.addEventListener('click', function (evt) {
+  function closePopupClickHandler(evt) {
     if (evt.target.className === 'error__button' || evt.target.className === 'error') {
-      var renderPopapError = main.querySelector('.error');
-      main.removeChild(renderPopapError);
-    }
-  });
+      var renderPopupError = main.querySelector('.error');
+      main.removeChild(renderPopupError);
+      errorElement.removeEventListener('click', closePopupClickHandler);
 
-  document.addEventListener('keydown', function (evt) {
+      document.removeEventListener('keydown', closePopupByEscHandler);
+    }
+  }
+
+  function closePopupByEscHandler(evt) {
     var classError = document.querySelector('.error');
     if ((evt.keyCode === ESC_KEYCODE) && (classError)) {
-      var renderPopapError = main.querySelector('.error');
-      main.removeChild(renderPopapError);
+      var renderPopupError = main.querySelector('.error');
+      main.removeChild(renderPopupError);
+      document.removeEventListener('keydown', closePopupByEscHandler);
     }
-  });
-
+  }
 
   function onError(message) {
     popupError(message);
@@ -63,6 +70,16 @@
     var blockPin = document.querySelectorAll('.map__overlay ~ .map__pin');
     for (var i = 1; i < blockPin.length; i++) {
       mapPins.removeChild(blockPin[i]);
+    }
+
+    var capacity = document.querySelector('#capacity');
+    var capacityOption = capacity.querySelectorAll('option');
+    for (i = 0; i < capacityOption.length; i++) {
+      if (capacityOption[i].value === ROOM) {
+        capacityOption[i].disabled = false;
+      } else {
+        capacityOption[i].disabled = true;
+      }
     }
 
     document.querySelector('.ad-form').classList.add('ad-form--disabled');

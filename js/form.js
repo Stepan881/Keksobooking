@@ -37,7 +37,7 @@
     var value = evt.target.value;
     if (value) {
       priceHouse.min = PriceHome[value];
-      priceHouse.value = PriceHome[value];
+      priceHouse.placeholder = PriceHome[value];
     }
   }
 
@@ -91,21 +91,26 @@
   var successElement = successClone.content.querySelector('.success').cloneNode(true);
   function popupSuccess() {
     main.appendChild(successElement);
+    main.addEventListener('click', closeOverlayClickHandler);
+    document.addEventListener('keydown', closeOverlayByEscHandler);
   }
 
-  successElement.addEventListener('click', function (evt) {
-
+  function closeOverlayClickHandler(evt) {
     if (evt.target.className === 'success') {
       main.removeChild(successElement);
+      main.removeEventListener('click', closeOverlayClickHandler);
+      document.removeEventListener('keydown', closeOverlayByEscHandler);
     }
-  });
+  }
 
-  document.addEventListener('keydown', function (evt) {
+  function closeOverlayByEscHandler(evt) {
     var success = document.querySelector('.success');
-    if (evt.keyCode === ESC_KEYCODE && success) {
+    if ((evt.keyCode === ESC_KEYCODE) && (success)) {
       main.removeChild(successElement);
+      document.removeEventListener('keydown', closeOverlayByEscHandler);
+      main.removeEventListener('click', closeOverlayClickHandler);
     }
-  });
+  }
 
   var getForm = document.querySelector('.ad-form');
   getForm.addEventListener('submit', function (evt) {
@@ -124,15 +129,16 @@
     window.data.resetPage();
   });
 
-  function changeTimeHandler(event) {
-    timeIn.value = event.target.value;
-    timeOut.value = event.target.value;
+  function changeTimeHandler(evt) {
+    timeIn.value = evt.target.value;
+    timeOut.value = evt.target.value;
   }
 
   timeIn.addEventListener('change', changeTimeHandler);
   timeOut.addEventListener('change', changeTimeHandler);
 
   window.form = {
+    RoomGuest: RoomGuest,
     title: title,
     disableInput: disableInput
   };

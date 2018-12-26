@@ -122,6 +122,7 @@
     lastTimeout = window.setTimeout(function () {
       render();
     }, DEBOUNCE);
+    document.removeEventListener('keydown', window.map.closeMapByEscHandler);
   }
 
   housingType.addEventListener('change', renderFilter);

@@ -4,6 +4,7 @@
   var WIDTH_MAIN_PIN = 62;
   var WINDOW_START_Y = 130;
   var WINDOW_END_Y = 630;
+  var PIN_BOTTOM = 22;
   var mapActiv = document.querySelector('.map');
   var windowPopup = document.querySelector('#card').content.querySelector('.popup');
   document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', '<div class="map__popup"></div>');
@@ -22,15 +23,15 @@
     var featuresList = newPopup.querySelector('.popup__features');
     featuresList.textContent = '';
     if (popup.offer.features.length !== 0) {
-      for (var iIcon = 0; iIcon < popup.offer.features.length; iIcon++) {
-        featuresList.insertAdjacentHTML('afterbegin', '<li class="popup__feature popup__feature--' + popup.offer.features[iIcon] + '"></li>');
+      for (var i = 0; i < popup.offer.features.length; i++) {
+        featuresList.insertAdjacentHTML('afterbegin', '<li class="popup__feature popup__feature--' + popup.offer.features[i] + '"></li>');
       }
     }
 
     var newPopupPhoto = newPopup.querySelector('.popup__photos');
     newPopupPhoto.textContent = '';
-    for (var iPhoto = 0; iPhoto < popup.offer.photos.length; iPhoto++) {
-      newPopupPhoto.insertAdjacentHTML('beforeend', '<img src="' + popup.offer.photos[iPhoto] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
+    for (var j = 0; j < popup.offer.photos.length; j++) {
+      newPopupPhoto.insertAdjacentHTML('beforeend', '<img src="' + popup.offer.photos[j] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">');
     }
     return newPopup;
   }
@@ -42,24 +43,26 @@
     }
   }
 
-  popupMap.addEventListener('click', function (evt) {
+  function closeMapBtnClickHandler(evt) {
     if (evt.target.className === 'popup__close') {
       popupMap.innerHTML = '';
       removeClassPinActive();
+      document.removeEventListener('click', closeMapBtnClickHandler);
+      document.removeEventListener('keydown', closeMapByEscHandler);
     }
-  });
-
-  document.addEventListener('keydown', function (evt) {
+  }
+  function closeMapByEscHandler(evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       popupMap.innerHTML = '';
       removeClassPinActive();
+      document.removeEventListener('keydown', closeMapByEscHandler);
     }
-  });
+  }
 
   var mapPinMain = document.querySelector('.map__pin--main');
   var blockPin = document.querySelector('.map__overlay');
-  var restrictionsMinY = WINDOW_START_Y;
-  var restrictionsMaxY = WINDOW_END_Y;
+  var restrictionsMinY = WINDOW_START_Y - mapPinMain.offsetHeight - PIN_BOTTOM;
+  var restrictionsMaxY = WINDOW_END_Y - mapPinMain.offsetHeight - PIN_BOTTOM;
   var restrictionsMinX = 0 - WIDTH_MAIN_PIN / 2;
   var restrictionsMaxX = blockPin.offsetWidth - mapPinMain.offsetWidth / 2;
 
@@ -120,6 +123,8 @@
   });
 
   window.map = {
+    closeMapBtnClickHandler: closeMapBtnClickHandler,
+    closeMapByEscHandler: closeMapByEscHandler,
     mapPinMain: mapPinMain,
     mapActiv: mapActiv,
     renderPopup: renderPopup,
