@@ -113,7 +113,8 @@
   }
 
   var getForm = document.querySelector('.ad-form');
-  getForm.addEventListener('submit', function (evt) {
+
+  function submitFormHandler(evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(getForm), function () {
       window.data.resetPage();
@@ -121,13 +122,16 @@
     }, function (response) {
       window.data.popupError(response);
     });
-  });
+
+  }
 
   var resetBtn = document.querySelector('.ad-form__reset');
-  resetBtn.addEventListener('click', function (evt) {
+  function resetBtnHandler(evt) {
     evt.preventDefault();
     window.data.resetPage();
-  });
+  }
+
+  resetBtn.addEventListener('click', resetBtnHandler);
 
   function changeTimeHandler(evt) {
     timeIn.value = evt.target.value;
@@ -138,6 +142,8 @@
   timeOut.addEventListener('change', changeTimeHandler);
 
   window.form = {
+    resetBtnHandler: resetBtnHandler,
+    submitFormHandler: submitFormHandler,
     RoomGuest: RoomGuest,
     title: title,
     disableInput: disableInput

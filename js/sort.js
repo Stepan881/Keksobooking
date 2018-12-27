@@ -116,6 +116,7 @@
 
   var lastTimeout;
   function renderFilter() {
+
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }

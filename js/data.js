@@ -7,6 +7,7 @@
   var errorElement = document.querySelector('#error').content.querySelector('.error');
   var AVATAR_FORM_DEFAULT = document.querySelector('.ad-form-header__preview').querySelector('img');
   var AVATAR_FORM_DEFAULT_SRC = AVATAR_FORM_DEFAULT.src;
+  var btnFormSubmit = document.querySelector('.ad-form__submit');
   var ErrorCode = {
     400: 'Неверный запрос',
     401: 'Пользователь не авторизован',
@@ -57,6 +58,14 @@
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+
+    var map = document.querySelector('.map');
+    map.addEventListener('click', window.pin.popupTogglerClickHandler);
+
+    var resetBtn = document.querySelector('.ad-form__reset');
+    resetBtn.addEventListener('click', window.form.resetBtnHandler);
+    var getForm = document.querySelector('.ad-form');
+    getForm.addEventListener('submit', window.form.submitFormHandler);
   }
 
   var pinPosition = document.querySelector('.map__pin, .map__pin--main');
@@ -96,6 +105,11 @@
     for (i = 0; i < formPhoto.length; i++) {
       photoContainer.removeChild(formPhoto[i]);
     }
+
+    btnFormSubmit.disabled = true;
+    var getForm = document.querySelector('.ad-form');
+    getForm.addEventListener('submit', window.form.submitFormHandler);
+
   }
 
   window.data = {
