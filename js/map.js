@@ -47,7 +47,7 @@
     if (evt.target.className === 'popup__close') {
       popupMap.innerHTML = '';
       removeClassPinActive();
-      document.removeEventListener('click', closeMapBtnClickHandler);
+      evt.target.removeEventListener('click', closeMapBtnClickHandler);
       document.removeEventListener('keydown', closeMapByEscHandler);
     }
   }
