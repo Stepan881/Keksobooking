@@ -54,7 +54,7 @@
       fragment.appendChild(window.pin.renderPin(window.getUsers[i]));
     }
 
-    window.map.mapActiv.classList.remove('map--faded');
+    window.map.mapActive.classList.remove('map--faded');
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
@@ -92,7 +92,7 @@
     }
 
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
-    window.map.mapActiv.classList.add('map--faded');
+    window.map.mapActive.classList.add('map--faded');
     form.reset();
     window.form.disableInput(true);
     pinPosition.style.left = pinPositionLeft;

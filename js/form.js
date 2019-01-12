@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var MIN_LENGHT_TITL = 30;
+  var MIN_LENGHT_TITLE = 30;
   var ESC_KEYCODE = 27;
   var ROOMS = '100';
   var timeIn = document.querySelector('#timein');
@@ -41,7 +41,7 @@
     }
   }
 
-  var RoomGuest = {
+  var roomGuest = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
@@ -49,7 +49,7 @@
   };
 
   function changeRoomGuestHandler() {
-    var value = RoomGuest[roomNumber.value];
+    var value = roomGuest[roomNumber.value];
     for (var i = 0; i < capacityOption.length; i++) {
       capacityOption[i].disabled = false;
       if (value.indexOf(capacityOption[i].value) === -1) {
@@ -79,7 +79,7 @@
 
   title.addEventListener('input', function (evt) {
     var target = evt.target;
-    if (target.value.length < MIN_LENGHT_TITL) {
+    if (target.value.length < MIN_LENGHT_TITLE) {
       target.setCustomValidity('Имя должно состоять минимум из 30 символов');
     } else {
       target.setCustomValidity('');
@@ -144,7 +144,7 @@
   window.form = {
     resetBtnHandler: resetBtnHandler,
     submitFormHandler: submitFormHandler,
-    RoomGuest: RoomGuest,
+    roomGuest: roomGuest,
     title: title,
     disableInput: disableInput
   };

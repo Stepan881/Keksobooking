@@ -5,7 +5,7 @@
   var WINDOW_START_Y = 130;
   var WINDOW_END_Y = 630;
   var PIN_BOTTOM = 22;
-  var mapActiv = document.querySelector('.map');
+  var mapActive = document.querySelector('.map');
   var windowPopup = document.querySelector('#card').content.querySelector('.popup');
   document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', '<div class="map__popup"></div>');
   var popupMap = document.querySelector('.map__popup');
@@ -126,7 +126,7 @@
     closeMapBtnClickHandler: closeMapBtnClickHandler,
     closeMapByEscHandler: closeMapByEscHandler,
     mapPinMain: mapPinMain,
-    mapActiv: mapActiv,
+    mapActive: mapActive,
     renderPopup: renderPopup,
     popupMap: popupMap
   };

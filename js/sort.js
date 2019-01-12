@@ -108,7 +108,7 @@
         fragment.appendChild(window.pin.renderPin(featuresConditioner[i]));
       }
     }
-    window.map.mapActiv.classList.remove('map--faded');
+    window.map.mapActive.classList.remove('map--faded');
     window.pin.mapPins.appendChild(fragment);
     window.form.disableInput(false);
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
