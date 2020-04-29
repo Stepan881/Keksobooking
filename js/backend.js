@@ -4,7 +4,7 @@
   // var URL_GET = 'https://js.dump.academy/keksobooking/data';
   // var URL_POST = 'https://js.dump.academy/keksobooking';
   var URL_GET = './data.json';
-  var URL_POST = 'https://js.dump.academy/keksobooking';
+  var URL_POST = './server.php';
   var SUCCESS = 200;
 
   function request(params) {
