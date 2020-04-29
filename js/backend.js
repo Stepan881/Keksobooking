@@ -3,7 +3,7 @@
   var TIMEOUT = 5000;
   // var URL_GET = 'https://js.dump.academy/keksobooking/data';
   // var URL_POST = 'https://js.dump.academy/keksobooking';
-  var URL_GET = './../data.json';
+  var URL_GET = './data.json';
   var URL_POST = 'https://js.dump.academy/keksobooking';
   var SUCCESS = 200;
 
